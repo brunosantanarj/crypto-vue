@@ -6,6 +6,7 @@ import { useSelectedCoinStore } from '@/stores/selected-coin'
 import { getPrice } from '@/data/api/get-price'
 import MarketChart from './MarketChart.vue'
 import HistoryRangePicker from './HistoryRangePicker.vue'
+import Loading from './Loading.vue'
 
 const store = useSelectedCoinStore()
 const { coin } = storeToRefs(store)
