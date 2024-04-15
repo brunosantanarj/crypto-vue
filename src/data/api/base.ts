@@ -1,16 +1,12 @@
-export type FetchParams = Parameters<
-  (input: RequestInfo, init?: RequestInit | undefined) => void
->
-export function httpRequestBase(
-  ...[input, init]: FetchParams
-): Promise<Response> {
+export type FetchParams = Parameters<(input: RequestInfo, init?: RequestInit | undefined) => void>
+export function httpRequestBase(...[input, init]: FetchParams): Promise<Response> {
   const request = fetch(`${import.meta.env.VITE_GECKO_API_URL}${input}`, {
     ...init,
     headers: {
       ...(init?.headers || {}),
       'Content-Type': 'application/json',
-      'x-cg-demo-api-key': import.meta.env.VITE_GECKO_API_KEY,
-    },
+      'x-cg-demo-api-key': import.meta.env.VITE_GECKO_API_KEY
+    }
   })
 
   request.then(({ status }) => {

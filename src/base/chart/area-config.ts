@@ -17,10 +17,11 @@ export const chartAreaConfig = {
       show: false
     },
     y: {
-      formatter: (price: number) => price.toLocaleString('en-US', {
-        currency: 'USD',
-        style: 'currency'
-      }),
+      formatter: (price: number) =>
+        price.toLocaleString('en-US', {
+          currency: 'USD',
+          style: 'currency'
+        })
     }
   },
   fill: {

@@ -27,7 +27,7 @@ export interface Localization {
   ru: string
   ja: string
   zh: string
-  "zh-tw": string
+  'zh-tw': string
   ko: string
   ar: string
   th: string
