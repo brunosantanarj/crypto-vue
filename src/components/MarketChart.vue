@@ -1,83 +1,33 @@
 <script setup lang="ts">
 import ApexCharts from 'apexcharts'
-import { onMounted, ref } from 'vue'
+import { useQuery } from '@tanstack/vue-query'
+import { ref, watchEffect } from 'vue'
+import { storeToRefs } from 'pinia'
+import { useSelectedCoinStore } from '@/stores/selected-coin'
+import { chartAreaConfig } from '@/base/chart/area-config'
+import { getMarketChart } from '@/data/api/get-market-chart'
+
+const store = useSelectedCoinStore()
+const { coin } = storeToRefs(store)
+
+const { data } = useQuery({
+  queryKey: ['GET_MARKET_CHART', coin],
+  queryFn: () => getMarketChart(coin.value),
+  refetchInterval: 10 * 1000
+})
 
 const chart = ref(null)
 
-onMounted(() => {
+watchEffect(() => {
   new ApexCharts(chart.value, {
-    chart: {
-      height: '100%',
-      maxWidth: '100%',
-      type: 'area',
-      fontFamily: 'Inter, sans-serif',
-      dropShadow: {
-        enabled: false
-      },
-      toolbar: {
-        show: false
-      }
-    },
-    tooltip: {
-      enabled: true,
-      x: {
-        show: false
-      }
-    },
-    fill: {
-      type: 'gradient',
-      gradient: {
-        opacityFrom: 0.55,
-        opacityTo: 0,
-        shade: '#1C64F2',
-        gradientToColors: ['#1C64F2']
-      }
-    },
-    dataLabels: {
-      enabled: false
-    },
-    stroke: {
-      width: 6
-    },
-    grid: {
-      show: false,
-      // strokeDashArray: 4,
-      padding: {
-        left: 2,
-        right: 2,
-        top: 0
-      }
-    },
+    ...chartAreaConfig,
     series: [
       {
-        name: 'New users',
-        data: [6500, 6418, 6456, 6526, 6356, 6456],
+        name: 'Prices',
+        data: data.value?.prices.map((price) => (price.length > 1 ? price[1] : price[0])),
         color: '#1A56DB'
       }
-    ],
-    xaxis: {
-      categories: [
-        // '01 February',
-        // '02 February',
-        // '03 February',
-        // '04 February',
-        // '05 February',
-        // '06 February',
-        // '07 February'
-      ],
-      labels: {
-        show: false
-      },
-      axisBorder: {
-        show: false
-      },
-      axisTicks: {
-        show: false
-      }
-    },
-    yaxis: {
-      show: false
-    }
+    ]
   }).render()
 })
 </script>
