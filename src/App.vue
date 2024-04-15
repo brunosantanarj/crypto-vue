@@ -1,5 +1,13 @@
+<script setup lang="ts">
+import Coin from '@/components/Coin.vue'
+import ChooseCoinGroup from '@/components/ChooseCoinGroup.vue'
+</script>
 <template>
-  <header>Header</header>
+  <header class="flex justify-center my-20">
+    <ChooseCoinGroup />
+  </header>
 
-  <main>Content</main>
+  <main class="container mx-auto flex justify-center">
+    <Coin />
+  </main>
 </template>
